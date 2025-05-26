@@ -1,0 +1,52 @@
+
+import math
+import os
+import random
+import re
+import sys
+import heapq
+
+#
+# Complete the 'runningMedian' function below.
+#
+# The function is expected to return a DOUBLE_ARRAY.
+# The function accepts INTEGER_ARRAY a as parameter.
+#
+
+def runningMedian(a):
+    min_heap = []  
+    max_heap = []  
+    medians = []
+
+    for num in a:
+        
+        if not max_heap or num <= -max_heap[0]:
+            heapq.heappush(max_heap, -num)
+        else:
+            heapq.heappush(min_heap, num)
+
+     
+        if len(max_heap) > len(min_heap) + 1:
+            heapq.heappush(min_heap, -heapq.heappop(max_heap))
+        elif len(min_heap) > len(max_heap):
+            heapq.heappush(max_heap, -heapq.heappop(min_heap))
+
+        if len(max_heap) == len(min_heap):
+            median = (-max_heap[0] + min_heap[0]) / 2.0
+        else:
+            median = float(-max_heap[0])
+
+        medians.append(round(median, 1))  # Keep one decimal as required
+
+    return medians
+
+if __name__ == '__main__':
+    fptr = open(os.environ['OUTPUT_PATH'], 'w')
+
+    a_count = int(input().strip())
+
+    a = []
+
+    for _ in range(a_count):
+        a_item = int(input().strip())
+        a.append(a_item)
