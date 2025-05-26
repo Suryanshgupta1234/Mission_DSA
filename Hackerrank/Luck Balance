@@ -1,0 +1,22 @@
+def luckBalance(k, contests):
+    # Separate important and unimportant contests
+    important = []
+    luck_balance = 0
+    
+    for luck, importance in contests:
+        if importance == 1:
+            important.append(luck)
+        else:
+            # You can lose unimportant contests freely
+            luck_balance += luck
+    
+    # Sort important contests by luck in descending order
+    important.sort(reverse=True)
+    
+    # Lose up to k important contests to gain luck
+    luck_balance += sum(important[:k])
+    
+    # Win the rest of the important contests (lose luck)
+    luck_balance -= sum(important[k:])
+    
+    return luck_balance
