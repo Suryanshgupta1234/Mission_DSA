@@ -1,0 +1,19 @@
+def pylons(k, arr):
+    n = len(arr)
+    count = 0
+    i = 0
+
+    while i < n:
+        # Find the rightmost plant within range [i - (k - 1), i + (k - 1)]
+        placed = False
+        for j in range(min(n - 1, i + k - 1), max(-1, i - k), -1):
+            if arr[j] == 1:
+                count += 1
+                i = j + k  # Jump beyond the coverage of the current plant
+                placed = True
+                break
+
+        if not placed:
+            return -1  # No valid plant can be placed
+
+    return count
